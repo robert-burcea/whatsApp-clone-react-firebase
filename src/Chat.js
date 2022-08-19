@@ -8,15 +8,18 @@ import AttachFileIcon from '@mui/icons-material/AttachFile';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import MicIcon from '@mui/icons-material/Mic';
 
-function Chat() {
+function Chat({rooms}) {
     const [seed, setSeed] = useState('');
     const [input, setInput] = useState('');
     const {roomId} = useParams();
-    const [roomName, setRoomName] = useState("");
+    const [room, setRoom] = useState('');
 
     useEffect (() => {
         if(roomId) {
-            //LEFT HERE
+            const room = rooms.find((room) =>
+                room.id === roomId
+            )
+            setRoom(room);
         }
     }, [roomId])
 
@@ -34,7 +37,7 @@ function Chat() {
         <div className="chat__header">
             <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
             <div className="chat__headerInfo">
-                <h3>Room name</h3>
+                <h3>{room.name}</h3>
                 <p>Last seen at ...</p>
             </div>
             <div className="chat__headerRight">
