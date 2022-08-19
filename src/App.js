@@ -9,6 +9,7 @@ import {
   } from 'firebase/firestore'
 
 function App() {
+  const [user, setUser] = useState(null)
   const [rooms, setRooms] = useState([]);
   //fetch the rooms collection from db, real time collection data
   const dataFetch = () => {
@@ -31,6 +32,9 @@ useEffect(() => {
 
   return (
     <div className="app">
+      {!user ? (
+      <h1>Login</h1>
+      ) : (
       <div className="app__body">
         <Router>
           <Sidebar rooms={rooms}/>
@@ -45,7 +49,7 @@ useEffect(() => {
           </Routes>
         </Router>
 
-      </div>
+      </div>)}
     </div>
   );
 }
