@@ -7,9 +7,16 @@ import db from './firebase'
 import { 
     collection, onSnapshot
   } from 'firebase/firestore'
+  import Login from './Login'
+  import UserContext, {
+    useUser, useSetUser
+} from './UserContext'
 
 function App() {
-  const [user, setUser] = useState(null)
+  const user = useUser();
+  const changeUser = useSetUser();
+  const [dataReady, setDataReady] = useState(false);
+
   const [rooms, setRooms] = useState([]);
   //fetch the rooms collection from db, real time collection data
   const dataFetch = () => {
@@ -32,8 +39,8 @@ useEffect(() => {
 
   return (
     <div className="app">
-      {!user ? (
-      <h1>Login</h1>
+      {!dataReady ? (
+      <Login setDataReady={setDataReady}/>
       ) : (
       <div className="app__body">
         <Router>
