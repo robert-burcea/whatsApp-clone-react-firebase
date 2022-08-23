@@ -14,13 +14,25 @@ function Chat({rooms}) {
     const {roomId} = useParams();
     const [room, setRoom] = useState('');
 
-    useEffect (() => {
+    const updateRoom = () => {
         if(roomId) {
             const room = rooms.find((room) =>
                 room.id === roomId
             )
             setRoom(room);
+            console.log('Room:',room, 'roomId:', roomId)
         }
+        else {
+            setRoom(rooms[0]);
+        }
+    }
+
+    useEffect (() => {
+        updateRoom();
+    }, [])
+
+    useEffect (() => {
+        updateRoom();
     }, [roomId])
 
     useEffect (() => {
@@ -37,7 +49,7 @@ function Chat({rooms}) {
         <div className="chat__header">
             <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
             <div className="chat__headerInfo">
-                <h3>{room.name}</h3>
+                <h3>Hello</h3>
                 <p>Last seen at ...</p>
             </div>
             <div className="chat__headerRight">
@@ -53,16 +65,17 @@ function Chat({rooms}) {
             </div>
         </div>
         <div className="chat__body">
-            <p className={`chat__message ${true && 'chat__receiver'} `}>
-            <span className="chat__name">
-                Robert
-            </span>
-                Hello
-            <span className="chat__timestamp">
-                3:52pm
-            </span>
-            </p>
-
+            {console.log('Room at runtime:', room.messages) && room && room.messages.map((message) => {
+                <p className={`chat__message ${true && 'chat__receiver'} `}>
+                <span className="chat__name">
+                    {message.name}
+                </span>
+                    {message.message}
+                <span className="chat__timestamp">
+                    {message.timestamp}
+                </span>
+                </p>
+            })}
         </div>
         <div className="chat__footer">
         <IconButton>

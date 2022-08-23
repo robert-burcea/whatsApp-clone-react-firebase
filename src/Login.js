@@ -26,7 +26,7 @@ function Login({setDataReady}) {
             changeUser({user:{...result.user}})
             setDataReady(true);
             console.log(result)
-            console.log(auth)
+            console.log(result.user.photoURL)
         })
         .catch(err => alert(err.message))
     }

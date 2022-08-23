@@ -6,13 +6,18 @@ import ChatIcon from '@mui/icons-material/Chat';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import SearchIcon from '@mui/icons-material/Search';
 import SidebarChat from './SidebarChat'
+import {
+    useUser
+} from './UserContext'
 
 
 function Sidebar({rooms}) {
+    const user = useUser();
+
    return (
     <div className="sidebar">
         <div className="sidebar__header">
-            <Avatar />
+            <Avatar src={user?.photoURL} alt={user?.displayName}/>
             <div className="sidebar__headerRight">
                 <IconButton>
                     <DonutLargeIcon />

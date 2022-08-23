@@ -25,10 +25,23 @@ function App() {
 
     onSnapshot(colRef, (snapshot) => {
         let roomsCopy = [];
+        console.log(snapshot.docs)
         snapshot.docs.forEach((doc) => {
-            roomsCopy.push({...doc.data(), id:doc.id})
+          let messagesCopy = [];
+          //checking the doc for a messages collection and saving them if there is one
+            const subCollectionRef = collection(db, 'rooms', doc.id, 'messages');
+            if(subCollectionRef) {
+              onSnapshot(subCollectionRef, (subSnapshot) => {
+                subSnapshot.forEach((subDoc) => {
+                  messagesCopy.push({...subDoc.data()})
+                  console.log('MessagesCopy inside:', messagesCopy)
+                })
+              })
+            }
+            console.log('Messages at exit:',messagesCopy)
+            roomsCopy.push({...doc.data(), id:doc.id, messages: messagesCopy})
         })
-        console.log(rooms);
+        console.log('What i get:',roomsCopy);
         setRooms(roomsCopy);
     })
   }
