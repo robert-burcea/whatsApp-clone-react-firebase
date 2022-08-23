@@ -65,16 +65,16 @@ function Chat({rooms}) {
             </div>
         </div>
         <div className="chat__body">
-            {console.log('Room at runtime:', room.messages) && room && room.messages.map((message) => {
-                <p className={`chat__message ${true && 'chat__receiver'} `}>
-                <span className="chat__name">
+            {room.messages?.map((message) => {
+                return <p className={`chat__message ${true && 'chat__receiver'} `}>
+                    <span className="chat__name">
                     {message.name}
                 </span>
                     {message.message}
-                <span className="chat__timestamp">
-                    {message.timestamp}
+                    <span className="chat__timestamp">
                 </span>
-                </p>
+                    </p>
+                    
             })}
         </div>
         <div className="chat__footer">
