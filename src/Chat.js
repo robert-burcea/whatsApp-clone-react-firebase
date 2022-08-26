@@ -7,42 +7,74 @@ import SearchIcon from '@mui/icons-material/Search';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
 import MicIcon from '@mui/icons-material/Mic';
+import { 
+    collection, onSnapshot, setDoc, doc, serverTimestamp, updateDoc, addDoc
+  } from 'firebase/firestore'
+  import db from './firebase'
+  import {
+    useUser
+} from './UserContext'
 
 function Chat({rooms}) {
     const [seed, setSeed] = useState('');
     const [input, setInput] = useState('');
     const {roomId} = useParams();
     const [room, setRoom] = useState('');
-
-    const updateRoom = () => {
-        if(roomId) {
-            const room = rooms.find((room) =>
-                room.id === roomId
-            )
-            setRoom(room);
-            console.log('Room:',room, 'roomId:', roomId)
-        }
-        else {
-            setRoom(rooms[0]);
-        }
-    }
+    const [index, setIndex] = useState(0);
+    const [dataReady, setDataReady] = useState(false);
+    const [messages, setMessages] = useState([])
+    const user = useUser();
 
     useEffect (() => {
-        updateRoom();
+        getMessages();
+        setReady();
+        //roomIndexFinder();
+        //getMessages();
+        console.log('This is user:', user)
     }, [])
 
     useEffect (() => {
-        updateRoom();
+        getMessages();
+        setReady();
+        //roomIndexFinder();
+        //getMessages();
     }, [roomId])
 
     useEffect (() => {
         setSeed(Math.floor(Math.random() * 5000));
     }, [])
 
+    const setReady = () => {
+        if(messages)
+             setDataReady(true);
+    }
+
     const sendMessage = (e) => {
         e.preventDefault();
-        prompt(JSON.stringify({input}))
+        const subCollectionRef = collection(db, 'rooms', roomId, 'messages');
+        const data = {
+            message: input,
+            name: 'Robert',
+            timestamp: serverTimestamp()
+        }
+        addDoc(subCollectionRef, data)
+        .then(() => {
+            console.log('succesful')
+        })
         setInput('');
+    }
+    const getMessages = () => {
+        const colRef = collection(db, 'rooms', roomId, 'messages');
+        onSnapshot(colRef, (snapshot) => {
+            let messagesCopy = [];
+            snapshot.docs.forEach((doc) => {
+                messagesCopy.push({...doc.data()})
+                messagesCopy.sort((a,b) => {return a.timestamp-b.timestamp;});
+            })
+            //messagesCopy.sort((a,b) => {return a.timestamp-b.timestamp;});
+            setMessages(messagesCopy)
+            setDataReady(true);
+        })
     }
   return (
     <div className="chat">
@@ -65,13 +97,14 @@ function Chat({rooms}) {
             </div>
         </div>
         <div className="chat__body">
-            {room.messages?.map((message) => {
+            {messages?.map((message) => {
                 return <p className={`chat__message ${true && 'chat__receiver'} `}>
                     <span className="chat__name">
                     {message.name}
                 </span>
                     {message.message}
-                    <span className="chat__timestamp">
+                    <span className="chat__timestamp"><br></br>
+                        {new Date(message?.timestamp?.toDate()).toUTCString()}
                 </span>
                     </p>
                     
