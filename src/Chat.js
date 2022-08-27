@@ -54,7 +54,7 @@ function Chat({rooms}) {
         const subCollectionRef = collection(db, 'rooms', roomId, 'messages');
         const data = {
             message: input,
-            name: 'Robert',
+            name: user.displayName,
             timestamp: serverTimestamp()
         }
         addDoc(subCollectionRef, data)
@@ -81,7 +81,7 @@ function Chat({rooms}) {
         <div className="chat__header">
             <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
             <div className="chat__headerInfo">
-                <h3>{user.displayName}</h3>
+                <h3>{rooms[rooms.findIndex((room) => room.id === roomId)].name || rooms[0].name}</h3>
                 <p>Last seen at ...</p>
             </div>
             <div className="chat__headerRight">

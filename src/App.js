@@ -44,6 +44,7 @@ function App() {
         })
         console.log('What i get:',roomsCopy);
         setRooms(roomsCopy);
+        console.log(rooms);
     })
   }
 
