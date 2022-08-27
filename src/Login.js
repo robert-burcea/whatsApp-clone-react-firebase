@@ -23,7 +23,7 @@ function Login({setDataReady}) {
         const provider = new GoogleAuthProvider();
         signInWithPopup(auth, provider)
         .then((result) => {
-            changeUser({user:{...result.user}})
+            changeUser({...result.user})
             setDataReady(true);
             console.log(result)
             console.log(result.user.photoURL)
