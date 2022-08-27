@@ -49,6 +49,15 @@ function Chat({rooms}) {
              setDataReady(true);
     }
 
+    const findIndex = (rooms) => {
+        return rooms.findIndex((room) => room.id === roomId);
+    }
+
+    const findLastMessage = (messages) => {
+        console.log('LAST MESSAGE:', messages.lastIndexOf((message) => message.id = user.uid))
+        return messages.lastIndexOf((message) => message.id = user.uid)
+    }
+
     const sendMessage = (e) => {
         e.preventDefault();
         const subCollectionRef = collection(db, 'rooms', roomId, 'messages');
@@ -82,8 +91,8 @@ function Chat({rooms}) {
         <div className="chat__header">
             <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
             <div className="chat__headerInfo">
-                <h3>{rooms[rooms.findIndex((room) => room.id === roomId)].name || rooms[0].name}</h3>
-                <p>Last seen at ...</p>
+                <h3>{rooms[findIndex(rooms)].name || rooms[0].name}</h3>
+                <p>{messages.length > 0 ? <p>Last seen at {new Date(messages[messages.length - 1]?.timestamp?.toDate()).toUTCString()}</p> : <p>No messages in chat</p>}</p>
             </div>
             <div className="chat__headerRight">
                 <IconButton>

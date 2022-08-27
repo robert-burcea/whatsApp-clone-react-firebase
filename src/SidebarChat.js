@@ -34,7 +34,9 @@ function SidebarChat(props) {
             <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
             <div className="sidebarChat__info">
                 <h2>{props.room.name}</h2>
-                <p>{props.room.messages ? props.room.messages[props.room.messages.length-1]?.message : 'no messages in room'}</p>
+                <p>{props.room.messages ? props.room.messages.sort((a,b) => 
+                {return a.timestamp-b.timestamp;})[props.room.messages.length-1]?.message 
+                : 'no messages in room'}</p>
             </div>
         </div>
       </Link>
