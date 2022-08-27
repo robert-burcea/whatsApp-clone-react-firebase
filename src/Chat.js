@@ -64,7 +64,7 @@ function Chat({rooms}) {
         setInput('');
     }
     const getMessages = () => {
-        const colRef = collection(db, 'rooms', roomId, 'messages');
+        const colRef = collection(db, 'rooms', `${roomId ? roomId : rooms[0].id}`, 'messages');
         onSnapshot(colRef, (snapshot) => {
             let messagesCopy = [];
             snapshot.docs.forEach((doc) => {
@@ -97,7 +97,7 @@ function Chat({rooms}) {
             </div>
         </div>
         <div className="chat__body">
-            {messages?.map((message) => {
+            {dataReady ? messages?.map((message) => {
                 return <p className={`chat__message ${true && 'chat__receiver'} `}>
                     <span className="chat__name">
                     {message.name}
@@ -108,7 +108,7 @@ function Chat({rooms}) {
                 </span>
                     </p>
                     
-            })}
+            }) : <p>loading...</p>}
         </div>
         <div className="chat__footer">
         <IconButton>

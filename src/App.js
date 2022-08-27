@@ -28,6 +28,7 @@ function App() {
         console.log(snapshot.docs)
         snapshot.docs.forEach((doc) => {
           let messagesCopy = [];
+          console.log("ASTA E DATA MAI:", doc.data())
           //checking the doc for a messages collection and saving them if there is one
             const subCollectionRef = collection(db, 'rooms', doc.id, 'messages');
             if(subCollectionRef) {
