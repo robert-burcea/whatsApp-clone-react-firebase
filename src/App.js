@@ -56,7 +56,7 @@ useEffect(() => {
     <div className="app">
       {!dataReady ? (
       <Login setDataReady={setDataReady}/>
-      ) : (
+      ) : rooms ? (
       <div className="app__body">
         <Router>
           <Sidebar rooms={rooms}/>
@@ -71,7 +71,7 @@ useEffect(() => {
           </Routes>
         </Router>
 
-      </div>)}
+      </div>) : <p>loading...</p>}
     </div>
   );
 }

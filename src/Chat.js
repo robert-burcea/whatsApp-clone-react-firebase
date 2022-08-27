@@ -91,7 +91,7 @@ function Chat({rooms}) {
         <div className="chat__header">
             <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`}/>
             <div className="chat__headerInfo">
-                <h3>{rooms[findIndex(rooms)].name || rooms[0].name}</h3>
+                <h3>{rooms[findIndex(rooms)]?.name || rooms[0]?.name}</h3>
                 <p>{messages.length > 0 ? <p>Last seen at {new Date(messages[messages.length - 1]?.timestamp?.toDate()).toUTCString()}</p> : <p>No messages in chat</p>}</p>
             </div>
             <div className="chat__headerRight">
