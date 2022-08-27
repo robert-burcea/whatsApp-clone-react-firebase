@@ -98,7 +98,7 @@ function Chat({rooms}) {
         </div>
         <div className="chat__body">
             {dataReady ? messages?.map((message) => {
-                return <p className={`chat__message ${true && 'chat__receiver'} `}>
+                return <p className={`chat__message ${message.name === user.displayName && 'chat__receiver'} `}>
                     <span className="chat__name">
                     {message.name}
                 </span>
